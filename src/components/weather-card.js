@@ -47,7 +47,7 @@ export class WeatherCard extends LitElement {
         </button>
       </div>
       <div class="card-container__icon-container">
-        <img src="/src/assets/${icon}.svg" alt=${icon} />
+        <img src="/weather-app/${icon}.svg" alt=${icon} />
       </div>
 
       <div class="card-container__detail">
