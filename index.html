@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito&display=swap"
+      rel="stylesheet"
+    />
+    <title>Vite App</title>
+  </head>
+  <body class="font-Nunito font-semibold">
+    <img
+      class="w-full fixed top-0 object-cover h-full"
+      src="/blurry-gradient-haikei.png"
+      alt="background gradient"
+    />
+    <main class="w-full grid place-items-center absolute top-0 mt-5">
+      <h1 class="text-center mt-5 text-4xl text-white/60">Weather App</h1>
+      <section class="w-full">
+        <weather-app></weather-app>
+      </section>
+      <div
+        class="hidden card max-w-md w-11/12 rounded-lg mt-1 bg-gradient-to-tl to-[#00061f] via-[#001460] from-[#001b7a] text-white/60 p-4 grid grid-cols-weatherCard gap-0"
+      >
+        <h2 class="col-span-2 pb-2">Buenos Aires (Argentina)</h2>
+        <div class="grid place-content-center">
+          <img class="svgDay w-28" src="/day.svg" alt="day" />
+        </div>
+
+        <div class="flex flex-col mb-2 text-center">
+          <div>
+            <span>Mon, Sept 6 </span>
+            <span> 20:43</span>
+          </div>
+          <span class="text-6xl mt-2">30°C</span>
+          <div>
+            <span>32°C</span>
+            <span>/</span>
+            <span>28°C</span>
+          </div>
+        </div>
+        <span class="w-full inline-block">Soleado</span>
+        <div class="grid justify-around">
+          <span class="text-center">28 km/h</span>
+          <span class="col-start-3">20%</span>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
