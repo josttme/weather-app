@@ -1,0 +1,52 @@
+<svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+
+ <title/>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <path stroke="null" fill="#ffffff" id="svg_1" d="m8.941662,17.406736l13.385966,0a6.26,6.270739 0 0 0 0,-12.541479l0,0a5.967867,5.978105 0 0 0 -0.959867,0.08361a7.825,7.838424 0 0 0 -13.772,2.142503a5.216667,5.225616 0 0 0 -3.933367,6.134873a5.300133,5.309226 0 0 0 5.279267,4.180493z" class="cls-1"/>
+  <path fill="#57a0ee" id="svg_2" d="m27,19l-2.91,0a1,1 0 0 0 0,2l2.91,0a1,1 0 0 0 0,-2z" class="cls-2"/>
+  <path fill="#57a0ee" id="svg_3" d="m21,20a1,1 0 0 0 -1,-1l-15,0a1,1 0 0 0 0,2l15,0a1,1 0 0 0 1,-1z" class="cls-2"/>
+  <path fill="#57a0ee" id="svg_4" d="m25,23l-12,0a1,1 0 0 0 0,2l12,0a1,1 0 0 0 0,-2z" class="cls-2"/>
+  <path fill="#57a0ee" id="svg_5" d="m10,24a1,1 0 0 0 -1,-1l-2,0a1,1 0 0 0 0,2l2,0a1,1 0 0 0 1,-1z" class="cls-2"/>
+  <path fill="#57a0ee" id="svg_6" d="m23,27l-3,0a1,1 0 0 0 0,2l3,0a1,1 0 0 0 0,-2z" class="cls-2"/>
+  <path fill="#57a0ee" id="svg_7" d="m16,27l-7,0a1,1 0 0 0 0,2l7,0a1,1 0 0 0 0,-2z" class="cls-2"/>
+  <path stroke="null" fill="#57a0ee" id="svg_9" d="m9.511035,16.367326l12.10474,0a5.660833,5.386328 0 0 0 0,-10.772646l0,0a5.396656,5.134958 0 0 0 -0.867989,0.071814a7.076044,6.732907 0 0 0 -12.453833,1.840331a4.717356,4.488602 0 0 0 -3.556885,5.269616a4.792834,4.560424 0 0 0 4.773967,3.590885z" class="cls-1"/>
+  <g transform="matrix(13.597807467404209,0,0,13.597807467404209,0,0) " id="svg_14" filter="url(#svg_15)">
+   <g id="svg_17">
+    <g id="svg_18">
+     <path id="svg_19" stroke-width="1.2" stroke-linejoin="round" stroke="#FFFFFF" fill="#57A0EE" d="m47.7,34.4c0,-4.6 -3.7,-8.2 -8.2,-8.2c-1,0 -1.9,0.2 -2.8,0.5c-0.3,-3.4 -3.1,-6.2 -6.6,-6.2c-3.7,0 -6.7,3 -6.7,6.7c0,0.8 0.2,1.6 0.4,2.3c-0.3,-0.1 -0.7,-0.1 -1,-0.1c-3.7,0 -6.7,3 -6.7,6.7c0,3.6 2.9,6.6 6.5,6.7l17.2,0c4.4,-0.5 7.9,-4 7.9,-8.4z"/>
+    </g>
+   </g>
+   <g id="svg_20" transform="rotate(10 34.00000000000004,46) ">
+    <line id="svg_21" y2="55" y1="47" x2="28" x1="28" stroke-width="2" stroke-linecap="round" stroke-dasharray="4,7" stroke="#91C0F8" fill="none" class="am-weather-rain-1"/>
+    <line id="svg_22" y2="53" y1="45" x2="34" x1="34" stroke-width="2" stroke-linecap="round" stroke-dasharray="4,7" stroke="#91C0F8" fill="none" class="am-weather-rain-2"/>
+   </g>
+  </g>
+  <g transform="matrix(13.597807467404209,0,0,13.597807467404209,0,0) " id="svg_28" filter="url(#svg_29)">
+   <g id="svg_31">
+    <g id="svg_32">
+     <path id="svg_33" stroke-width="1.2" stroke-linejoin="round" stroke="#FFFFFF" fill="#57A0EE" d="m47.7,34.4c0,-4.6 -3.7,-8.2 -8.2,-8.2c-1,0 -1.9,0.2 -2.8,0.5c-0.3,-3.4 -3.1,-6.2 -6.6,-6.2c-3.7,0 -6.7,3 -6.7,6.7c0,0.8 0.2,1.6 0.4,2.3c-0.3,-0.1 -0.7,-0.1 -1,-0.1c-3.7,0 -6.7,3 -6.7,6.7c0,3.6 2.9,6.6 6.5,6.7l17.2,0c4.4,-0.5 7.9,-4 7.9,-8.4z"/>
+    </g>
+   </g>
+   <g id="svg_34" transform="rotate(10 34.00000000000004,46) ">
+    <line id="svg_35" y2="55" y1="47" x2="28" x1="28" stroke-width="2" stroke-linecap="round" stroke-dasharray="4,7" stroke="#91C0F8" fill="none" class="am-weather-rain-1"/>
+    <line id="svg_36" y2="53" y1="45" x2="34" x1="34" stroke-width="2" stroke-linecap="round" stroke-dasharray="4,7" stroke="#91C0F8" fill="none" class="am-weather-rain-2"/>
+   </g>
+  </g>
+  <g transform="matrix(13.597807467404209,0,0,13.597807467404209,0,0) " id="svg_42" filter="url(#svg_43)">
+   <g id="svg_45">
+    <g id="svg_46">
+     <path id="svg_47" stroke-width="1.2" stroke-linejoin="round" stroke="#FFFFFF" fill="#57A0EE" d="m47.7,34.4c0,-4.6 -3.7,-8.2 -8.2,-8.2c-1,0 -1.9,0.2 -2.8,0.5c-0.3,-3.4 -3.1,-6.2 -6.6,-6.2c-3.7,0 -6.7,3 -6.7,6.7c0,0.8 0.2,1.6 0.4,2.3c-0.3,-0.1 -0.7,-0.1 -1,-0.1c-3.7,0 -6.7,3 -6.7,6.7c0,3.6 2.9,6.6 6.5,6.7l17.2,0c4.4,-0.5 7.9,-4 7.9,-8.4z"/>
+    </g>
+   </g>
+   <g id="svg_48" transform="rotate(10 34.00000000000004,46) ">
+    <line id="svg_49" y2="55" y1="47" x2="28" x1="28" stroke-width="2" stroke-linecap="round" stroke-dasharray="4,7" stroke="#91C0F8" fill="none" class="am-weather-rain-1"/>
+    <line id="svg_50" y2="53" y1="45" x2="34" x1="34" stroke-width="2" stroke-linecap="round" stroke-dasharray="4,7" stroke="#91C0F8" fill="none" class="am-weather-rain-2"/>
+   </g>
+  </g>
+ </g>
+</svg>
