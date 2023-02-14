@@ -8,6 +8,7 @@ import {
   ListOfSelectedCountriesSaveToStorage,
   selectedCountriesList
 } from '../utils/index'
+import { dragAndDrop } from '../utils/dragAndDrop'
 
 export class WeatherApp extends LitElement {
   static get properties() {
@@ -28,11 +29,27 @@ export class WeatherApp extends LitElement {
       .weather-cards-container {
         width: 100%;
         margin: 0 auto;
-        margin-top: 2rem;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 0.5rem;
         padding: 0.5rem;
+      }
+      .button-container {
+        width: 100%;
+        display: grid;
+        place-content: center;
+      }
+      button {
+        font-family: 'Nunito';
+        margin: 2rem 0 0.5rem;
+        width: 100px;
+        height: 40px;
+        border-radius: 8px;
+        border: none;
+        font-size: 1.1rem;
+        background: #085ec3;
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: bold;
       }
       @media (min-width: 358px) {
         .weather-cards-container {
@@ -51,9 +68,12 @@ export class WeatherApp extends LitElement {
     super()
     this.selectedCountries = []
   }
-  firstUpdated() {
-    this.getSelecetedCountries()
+  async firstUpdated() {
+    this.selectedCountries = []
+    await this.getSelecetedCountries()
+    await dragAndDrop(this.weatherCardsContainer)
   }
+
   async selectedCountriesFromApi(e) {
     let selectedCountry = e.detail.selectedCountries
     let selectedCountries = await getWeather(selectedCountry)
@@ -63,28 +83,42 @@ export class WeatherApp extends LitElement {
   }
 
   async getSelecetedCountries() {
-    const getSelectedCountriesArray = Object.values(selectedCountriesList())
-    getSelectedCountriesArray.forEach(async (country) => {
+    const getSelectedCountriesArray = selectedCountriesList()
+    let promises = getSelectedCountriesArray.map(async (country) => {
       let countriesStorages = await getWeather(country)
-      this.selectedCountries = [...this.selectedCountries, countriesStorages]
+      return { ...country, ...countriesStorages }
     })
+    let results = await Promise.all(promises)
+    this.selectedCountries = results
+    console.log(this.selectedCountries)
   }
+  get weatherCardsContainer() {
+    return this.renderRoot?.querySelector('.weather-cards-container') ?? null
+  }
+
   removeCard(e) {
     let id = e.detail
     const shadow = this.renderRoot
-    const weatherCardsContainer = shadow?.querySelector('.weather-cards-container') ?? null
     const cardContainer = shadow?.querySelector(`#${id}`) ?? null
-    weatherCardsContainer.removeChild(cardContainer)
+    this.weatherCardsContainer.removeChild(cardContainer)
     removeItemStorage(id)
   }
+  refresh() {
+    this.firstUpdated()
+  }
+
   render() {
     return html`
       <main>
         <search-component @cities=${this.selectedCountriesFromApi}></search-component>
+        <div class="button-container">
+          <button type="button" @click=${this.refresh}>Refresh</button>
+        </div>
         <div class="weather-cards-container">
           ${this.selectedCountries.map((country) => {
             return html`
               <weather-card
+                draggable="true"
                 id=${country.id}
                 city=${country.city}
                 country=${country.country}
@@ -97,6 +131,8 @@ export class WeatherApp extends LitElement {
                 windSpeed=${country.windSpeed}
                 humidity=${country.humidity}
                 timeZone=${country.timezone}
+                sunrise=${country.sunrise}
+                sunset=${country.sunset}
                 @removeCard=${this.removeCard}
               ></weather-card>
             `
@@ -104,6 +140,11 @@ export class WeatherApp extends LitElement {
         </div>
       </main>
     `
+  }
+  countChildComponents() {
+    const childs = this.weatherCardsContainer.childNodes
+    const elementChilds = [...childs]
+    console.log(elementChilds.filter((node) => node.nodeType === 1))
   }
 }
 customElements.define('weather-app', WeatherApp)

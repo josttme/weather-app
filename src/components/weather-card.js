@@ -1,7 +1,7 @@
 import { LitElement, html, unsafeCSS } from 'lit'
 import weatherCard from '../styles/components/weatherCard.scss?inline'
-import { currentTimeFormatter, descriptionCode } from '../utils/index'
-import { ICON_MAP } from '../utils/iconMap'
+import { currentTimeFormatter, descriptionCode, isItDayOrNight } from '../utils/index'
+import { getIcon } from '../utils/index'
 export class WeatherCard extends LitElement {
   static get properties() {
     return {
@@ -16,7 +16,9 @@ export class WeatherCard extends LitElement {
       windSpeed: { type: Number, attribute: true },
       humidity: { type: Number, attribute: true },
       currentTemp: { type: Number, attribute: true },
-      id: { type: String, attribute: true }
+      id: { type: String, attribute: true },
+      sunrise: { type: Number },
+      sunset: { type: Number }
     }
   }
   static styles = [unsafeCSS(weatherCard)]
@@ -31,12 +33,27 @@ export class WeatherCard extends LitElement {
     this.dispatchEvent(new CustomEvent('removeCard', options))
   }
   render() {
-    let description = descriptionCode(this.iconCode)
-    let icon = ICON_MAP.get(this.iconCode)
+    const description = descriptionCode(this.iconCode)
+
+    const icon = getIcon(
+      this.iconCode,
+      this.currentTime,
+      this.sunrise,
+      this.sunset,
+      this.timeZone
+    )
     const currentTime = currentTimeFormatter(this.currentTime, this.timeZone)
     return html` <div class="card-container">
       <div class="card-container__currenttime-deletecard">
-        <h3>${this.city} (${this.country})</h3>
+        <div class="card-container__currenttime-deletecard__location">
+          <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 200 200">
+            <path
+              fill-rule="evenodd"
+              d="M155.06 85.271c0 33.32792-38.88769 71.23137-51.41882 82.58054-2.20364 1.9955-5.47872 1.9955-7.68236 0C83.42782 156.50237 44.54 118.59892 44.54 85.271c0-30.51924 24.74076-55.26 55.26-55.26 30.51948 0 55.26 24.74076 55.26 55.26Zm-35.305 0c0 11.02069-8.93431 19.955-19.955 19.955s-19.955-8.93431-19.955-19.955c0-11.0208 8.93431-19.955 19.955-19.955s19.955 8.9342 19.955 19.955Z"
+            />
+          </svg>
+          <h3>${this.city} (${this.country})</h3>
+        </div>
         <button @click=${this.removeCard}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="5 5 15 15">
             <path
@@ -45,13 +62,13 @@ export class WeatherCard extends LitElement {
             />
           </svg>
         </button>
+        <span class="card-container__current-time">${currentTime}</span>
       </div>
       <div class="card-container__icon-container">
         <img src="/weather-app/${icon}.svg" alt=${icon} />
       </div>
 
       <div class="card-container__detail">
-        <span>${currentTime}</span>
         <span class="card-container__detail__current-temp">${this.currentTemp}°C</span>
         <div>
           <span>${this.maxTemp}°C</span>
@@ -59,7 +76,6 @@ export class WeatherCard extends LitElement {
           <span>${this.minTemp}°C</span>
         </div>
       </div>
-      <span class="card-container__description">${description}</span>
       <div class="card-container__detail__wind-humidity">
         <div>
           <svg width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
@@ -84,6 +100,7 @@ export class WeatherCard extends LitElement {
           <span>${this.windSpeed} km/h</span>
         </div>
       </div>
+      <span class="card-container__description">${description}</span>
     </div>`
   }
 }

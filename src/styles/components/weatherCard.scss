@@ -23,14 +23,27 @@
   margin: 0 auto;
   max-width: 500px;
   min-width: 200px;
-  min-height: 230px;
+  min-height: 250px;
   max-height: 250px;
   border-radius: 0.5rem;
+  &__current-time {
+    text-align: center;
+    grid-column: span 2 / span 2;
+  }
   &__currenttime-deletecard {
     width: 100%;
     grid-column: span 2 / span 2;
     display: grid;
     grid-template-columns: 95% 1fr;
+    &__location {
+      display: flex;
+      gap: 2px;
+      & svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        fill: rgba(255, 255, 255, 0.6);
+      }
+    }
     & h3 {
       padding-bottom: 0.5rem;
     }
@@ -50,6 +63,7 @@
   &__icon-container {
     display: grid;
     place-content: center;
+    grid-row: 2 / 4;
     & img {
       width: 7rem;
     }
@@ -67,6 +81,8 @@
       margin: 5px 0;
     }
     &__wind-humidity {
+      grid-column: span 1 / -1;
+
       display: flex;
       justify-content: space-around;
       & div {
@@ -76,6 +92,7 @@
     }
   }
   &__description {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    grid-column: span 2 / span 2;
   }
 }
