@@ -8,6 +8,7 @@
 }
 
 .card-container {
+  position: relative;
   width: 100%;
   color: rgba(255, 255, 255, 0.6);
   display: grid;
@@ -94,5 +95,10 @@
   &__description {
     font-size: 1.1rem;
     grid-column: span 2 / span 2;
+  }
+  .dragbuttoncontainer {
+    position: absolute;
+    bottom: 7px;
+    right: 7px;
   }
 }

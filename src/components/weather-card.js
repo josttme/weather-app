@@ -2,6 +2,7 @@ import { LitElement, html, unsafeCSS } from 'lit'
 import weatherCard from '../styles/components/weatherCard.scss?inline'
 import { currentTimeFormatter, descriptionCode, isItDayOrNight } from '../utils/index'
 import { getIcon } from '../utils/index'
+
 export class WeatherCard extends LitElement {
   static get properties() {
     return {
@@ -31,6 +32,46 @@ export class WeatherCard extends LitElement {
       composed: true
     }
     this.dispatchEvent(new CustomEvent('removeCard', options))
+  }
+  trueDragable(e) {
+    const dragButton = e.target
+    let detail = dragButton
+    let options = {
+      detail: detail,
+      bubble: true,
+      composed: true
+    }
+    this.dispatchEvent(new CustomEvent('trueDragable', options))
+  }
+  falseDragable(e) {
+    const dragButton = e.target
+    let detail = dragButton
+    let options = {
+      detail: detail,
+      bubble: true,
+      composed: true
+    }
+    this.dispatchEvent(new CustomEvent('falseDragable', options))
+  }
+  touchStart(e) {
+    const dragButton = e.target
+    let detail = dragButton
+    let options = {
+      detail: detail,
+      bubble: true,
+      composed: true
+    }
+    this.dispatchEvent(new CustomEvent('touchStart', options))
+  }
+  touchMove(e) {
+    const dragButton = e.target
+    let detail = dragButton
+    let options = {
+      detail: detail,
+      bubble: true,
+      composed: true
+    }
+    this.dispatchEvent(new CustomEvent('touchMove', options))
   }
   render() {
     const description = descriptionCode(this.iconCode)
@@ -101,6 +142,17 @@ export class WeatherCard extends LitElement {
         </div>
       </div>
       <span class="card-container__description">${description}</span>
+      <div class="dragbuttoncontainer">
+        <button
+          @mouseout=${this.falseDragable}
+          @mousemove=${this.trueDragable}
+          @touchstart=${this.touchStart}
+          @touchmove=${this.touchMove}
+          class="drag-button"
+        >
+          Move
+        </button>
+      </div>
     </div>`
   }
 }

@@ -8,7 +8,13 @@ import {
   ListOfSelectedCountriesSaveToStorage,
   selectedCountriesList
 } from '../utils/index'
-import { dragAndDrop } from '../utils/dragAndDrop'
+import {
+  dragAndDrop,
+  trueDragable,
+  falseDragable,
+  touchStart,
+  touchMove
+} from '../utils/dragAndDrop'
 
 export class WeatherApp extends LitElement {
   static get properties() {
@@ -25,8 +31,10 @@ export class WeatherApp extends LitElement {
       }
       :host {
         display: block;
+        overflow: hidden;
       }
       .weather-cards-container {
+        position: relative;
         width: 100%;
         margin: 0 auto;
         display: grid;
@@ -51,6 +59,11 @@ export class WeatherApp extends LitElement {
         color: rgba(255, 255, 255, 0.8);
         font-weight: bold;
       }
+      .dragging {
+        position: relative;
+        z-index: 100;
+      }
+
       @media (min-width: 358px) {
         .weather-cards-container {
           gap: 1rem;
@@ -90,7 +103,6 @@ export class WeatherApp extends LitElement {
     })
     let results = await Promise.all(promises)
     this.selectedCountries = results
-    console.log(this.selectedCountries)
   }
   get weatherCardsContainer() {
     return this.renderRoot?.querySelector('.weather-cards-container') ?? null
@@ -103,11 +115,54 @@ export class WeatherApp extends LitElement {
     this.weatherCardsContainer.removeChild(cardContainer)
     removeItemStorage(id)
   }
+  isMobile() {
+    return /Mobi|Android/i.test(navigator.userAgent)
+  }
+
+  // uso de la función para imprimir un mensaje diferente según el tipo de dispositivo
+
+  trueDragable() {
+    trueDragable(this.weatherCardsContainer)
+  }
+  falseDragable() {
+    falseDragable(this.weatherCardsContainer)
+  }
+  touchStart(e) {
+    touchStart(e, this.weatherCardsContainer)
+  }
   refresh() {
     this.firstUpdated()
   }
+  touchMove(e) {
+    touchMove(e, this.weatherCardsContainer)
+  }
 
   render() {
+    let weatherCard = this.selectedCountries.map((country) => {
+      return html`
+        <weather-card
+          id=${country.id}
+          city=${country.city}
+          country=${country.country}
+          currentTime=${country.currentTime}
+          currentTemp=${country.currentTemp}
+          maxTemp=${country.maxTemp}
+          minTemp=${country.minTemp}
+          iconCode=${country.iconCode}
+          precip=${country.precip}
+          windSpeed=${country.windSpeed}
+          humidity=${country.humidity}
+          timeZone=${country.timezone}
+          sunrise=${country.sunrise}
+          sunset=${country.sunset}
+          @removeCard=${this.removeCard}
+          @trueDragable=${this.trueDragable}
+          @falseDragable=${this.falseDragable}
+          @touchStart=${this.touchStart}
+          @touchMove=${this.touchMove}
+        ></weather-card>
+      `
+    })
     return html`
       <main>
         <search-component @cities=${this.selectedCountriesFromApi}></search-component>
@@ -115,28 +170,9 @@ export class WeatherApp extends LitElement {
           <button type="button" @click=${this.refresh}>Refresh</button>
         </div>
         <div class="weather-cards-container">
-          ${this.selectedCountries.map((country) => {
-            return html`
-              <weather-card
-                draggable="true"
-                id=${country.id}
-                city=${country.city}
-                country=${country.country}
-                currentTime=${country.currentTime}
-                currentTemp=${country.currentTemp}
-                maxTemp=${country.maxTemp}
-                minTemp=${country.minTemp}
-                iconCode=${country.iconCode}
-                precip=${country.precip}
-                windSpeed=${country.windSpeed}
-                humidity=${country.humidity}
-                timeZone=${country.timezone}
-                sunrise=${country.sunrise}
-                sunset=${country.sunset}
-                @removeCard=${this.removeCard}
-              ></weather-card>
-            `
-          })}
+          ${this.isMobile()
+            ? weatherCard.map((card) => html`<div class="drag-container">${card}</div>`)
+            : weatherCard}
         </div>
       </main>
     `
