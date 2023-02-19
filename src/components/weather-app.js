@@ -8,13 +8,7 @@ import {
   ListOfSelectedCountriesSaveToStorage,
   selectedCountriesList
 } from '../utils/index'
-import {
-  dragAndDrop,
-  trueDragable,
-  falseDragable,
-  touchStart,
-  touchMove
-} from '../utils/dragAndDrop'
+import { dragAndDrop, trueDragable, falseDragable, touchStart } from '../utils/dragAndDrop'
 
 export class WeatherApp extends LitElement {
   static get properties() {
@@ -128,13 +122,11 @@ export class WeatherApp extends LitElement {
     falseDragable(this.weatherCardsContainer)
   }
   touchStart(e) {
-    touchStart(e, this.weatherCardsContainer)
+    const dragging = e.target
+    touchStart(dragging, this.weatherCardsContainer)
   }
   refresh() {
     this.firstUpdated()
-  }
-  touchMove(e) {
-    touchMove(e, this.weatherCardsContainer)
   }
 
   render() {
@@ -159,7 +151,6 @@ export class WeatherApp extends LitElement {
           @trueDragable=${this.trueDragable}
           @falseDragable=${this.falseDragable}
           @touchStart=${this.touchStart}
-          @touchMove=${this.touchMove}
         ></weather-card>
       `
     })

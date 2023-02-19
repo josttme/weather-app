@@ -67,68 +67,73 @@ export function falseDragable(container) {
   })
 }
 
-export function touchStart(e, container) {
-  let initialX, initialY, dragTop, dragLeft, parentTop, parentLeft, itemAppend, parent, child
+export function touchStart(dragging, container) {
+  let initialX, initialY
   const draggables = [...getChildrenElement(container)]
-  const ddd = e.target
-  ddd.addEventListener('touchstart', (e) => {
-    const touch = e.touches[0]
-    dragTop = e.target.getBoundingClientRect().top
-    parentTop = e.target.parentElement.getBoundingClientRect().top
-    console.log(dragTop, parentTop, dragTop - parentTop)
-    dragLeft = e.target.offsetLeft
-    parentLeft = e.target.parentNode.offsetLeft
+  // Events Listeners for dragging
+  dragging.addEventListener('touchstart', dragStart)
+  dragging.addEventListener('touchmove', dragMove)
+  dragging.addEventListener('touchend', dragEnd)
 
-    const styles = window.getComputedStyle(e.target.parentNode)
-    const marginLeft = parseInt(styles.getPropertyValue('margin-left'))
-    const paddingLeft = parseInt(styles.getPropertyValue('padding-left'))
-    initialX = touch.clientX - paddingLeft + marginLeft
-    initialY = touch.clientY
-  })
-  ddd.addEventListener('touchmove', function eetouchMove(e) {
+  // Event Touchstart for dragging
+  function dragStart(e) {
     e.preventDefault()
+    e.stopPropagation()
+    const dragging = e.target
+    const touch = e.touches[0]
+
+    const styles = window.getComputedStyle(dragging.parentNode)
+    const getMarginLeft = parseInt(styles.getPropertyValue('margin-left'))
+    const getPaddingLeft = parseInt(styles.getPropertyValue('padding-left'))
+
+    initialX = touch.clientX - getPaddingLeft + getMarginLeft
+    initialY = touch.clientY
+  }
+
+  // Event Touchmove for dragging
+  function dragMove(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    const dragging = e.target
+    const parentDraggin = dragging.parentNode
     const currentX = e.touches[0].clientX - initialX
     const currentY = e.touches[0].clientY - initialY
-    child = e.target
-    parent = e.target.parentNode
-    e.target.classList.add('dragging')
 
-    e.target.style.left = currentX + 'px'
-    e.target.style.top = currentY + 'px'
-    const draggable = getChildrenElement(container)
-    const item = draggable.find((dragg, i) => {
+    dragging.classList.add('dragging')
+    dragging.style.left = currentX + 'px'
+    dragging.style.top = currentY + 'px'
+
+    const draggables = getChildrenElement(container)
+    draggables.forEach((newDragDrop) => {
       if (
-        e.target.getBoundingClientRect().top + e.target.offsetHeight / 2 + 50 <
-          dragg.getBoundingClientRect().bottom &&
-        e.target.getBoundingClientRect().right - e.target.offsetWidth / 2 >
-          dragg.getBoundingClientRect().left &&
-        e.target.getBoundingClientRect().bottom - e.target.offsetHeight / 2 - 50 >
-          dragg.getBoundingClientRect().top &&
-        e.target.getBoundingClientRect().left + e.target.offsetWidth / 2 <
-          dragg.getBoundingClientRect().right
+        dragging.getBoundingClientRect().top + dragging.offsetHeight / 2 + 50 <
+          newDragDrop.getBoundingClientRect().bottom &&
+        dragging.getBoundingClientRect().right - dragging.offsetWidth / 2 >
+          newDragDrop.getBoundingClientRect().left &&
+        dragging.getBoundingClientRect().bottom - dragging.offsetHeight / 2 - 50 >
+          newDragDrop.getBoundingClientRect().top &&
+        dragging.getBoundingClientRect().left + dragging.offsetWidth / 2 <
+          newDragDrop.getBoundingClientRect().right
       ) {
-        dragg.classList.add('active')
-        return dragg
-      } else {
-        dragg.classList.remove('active')
+        if (newDragDrop === undefined) return
+        if (newDragDrop.children[0].id !== dragging.id) {
+          parentDraggin.appendChild(newDragDrop.children[0])
+          dragging.removeAttribute('style')
+          dragging.classList.remove('dragging')
+          newDragDrop.appendChild(dragging)
+          dragging.removeEventListener('touchstart', dragStart)
+          dragging.removeEventListener('touchmove', dragMove)
+        }
       }
     })
-    if (item !== undefined && item.children[0].id !== child.id) {
-      ddd.removeEventListener('touchmove', eetouchMove)
-      parent.appendChild(item.children[0])
-      child.removeAttribute('style')
-      child.classList.remove('dragging')
-      item.appendChild(child)
-    }
-  })
-  ddd.addEventListener('touchend', (e) => {
-    child.removeAttribute('style')
-    child.classList.remove('dragging')
-  })
-}
-export function touchMove(e, container) {}
-function appendToChild(childIndex, element) {
-  element.appendChild(childIndex)
-}
+  }
 
-function etouchMove() {}
+  // Event Touchend for dragging
+  function dragEnd() {
+    dragging.removeEventListener('touchstart', dragStart)
+    dragging.removeEventListener('touchmove', dragMove)
+    dragging.hasAttribute('style') && dragging.removeAttribute('style')
+    dragging.classList.contains('dragging') && dragging.classList.remove('dragging')
+    rebuildStorage(getChildrenElement(container))
+  }
+}
