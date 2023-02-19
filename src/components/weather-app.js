@@ -8,7 +8,13 @@ import {
   ListOfSelectedCountriesSaveToStorage,
   selectedCountriesList
 } from '../utils/index'
-import { dragAndDrop, trueDragable, falseDragable, touchStart } from '../utils/dragAndDrop'
+import {
+  dragAndDrop,
+  trueDragable,
+  falseDragable,
+  touchStart,
+  isMobile
+} from '../utils/dragAndDrop'
 
 export class WeatherApp extends LitElement {
   static get properties() {
@@ -106,11 +112,12 @@ export class WeatherApp extends LitElement {
     let id = e.detail
     const shadow = this.renderRoot
     const cardContainer = shadow?.querySelector(`#${id}`) ?? null
-    this.weatherCardsContainer.removeChild(cardContainer)
+    if (isMobile()) {
+      this.weatherCardsContainer.removeChild(cardContainer.parentElement)
+    } else {
+      this.weatherCardsContainer.removeChild(cardContainer)
+    }
     removeItemStorage(id)
-  }
-  isMobile() {
-    return /Mobi|Android/i.test(navigator.userAgent)
   }
 
   // uso de la función para imprimir un mensaje diferente según el tipo de dispositivo
@@ -161,7 +168,7 @@ export class WeatherApp extends LitElement {
           <button type="button" @click=${this.refresh}>Refresh</button>
         </div>
         <div class="weather-cards-container">
-          ${this.isMobile()
+          ${isMobile()
             ? weatherCard.map((card) => html`<div class="drag-container">${card}</div>`)
             : weatherCard}
         </div>

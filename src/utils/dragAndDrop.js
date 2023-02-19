@@ -47,12 +47,20 @@ function getChildrenElement(container) {
 }
 
 function rebuildStorage(container) {
+  let idCards
   const arrayStorage = [...selectedCountriesList()]
-  const idCards = container.map((item) => item.id)
+  if (isMobile()) {
+    console.log()
+    idCards = container.map((item) => item.firstElementChild.id)
+  } else {
+    idCards = container.map((item) => item.id)
+  }
   arrayStorage.sort((a, b) => idCards.indexOf(a.id) - idCards.indexOf(b.id))
   localStorage.setItem('selectedCountries', JSON.stringify(arrayStorage))
 }
-
+export function isMobile() {
+  return /Mobi|Android/i.test(navigator.userAgent)
+}
 export function trueDragable(container) {
   const draggables = [...getChildrenElement(container)]
   draggables.forEach((draggable) => {
