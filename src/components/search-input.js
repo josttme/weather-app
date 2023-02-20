@@ -17,6 +17,7 @@ class searchInput extends LitElement {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      z-index: 110;
     }
     form {
       width: 90%;
@@ -99,6 +100,7 @@ class searchInput extends LitElement {
         <input
           @input=${this.searchValue('cities')}
           @focus=${this.searchValue('cities')}
+          @blur=${this.onBlur}
           .value=${this.search}
           type="search"
           placeholder="Buscar..."
@@ -124,6 +126,7 @@ class searchInput extends LitElement {
       let value = e.target.value
       this[cities] = await getCitiesFromApi(value)
       this.onSearch()
+      this.dispatchEvent(new CustomEvent('onInput'))
     }
   }
   onSearch() {
@@ -134,6 +137,9 @@ class searchInput extends LitElement {
       composed: true
     }
     this.dispatchEvent(new CustomEvent('search', options))
+  }
+  onBlur() {
+    this.dispatchEvent(new CustomEvent('onBlur'))
   }
 }
 customElements.define('search-input', searchInput)

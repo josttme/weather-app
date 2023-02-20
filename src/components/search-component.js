@@ -9,11 +9,13 @@ export class SearchComponent extends LitElement {
     return {
       citiesResult: { type: Object },
       selectedCountries: { type: Array },
-      existsCountry: { type: Boolean }
+      existsCountry: { type: Boolean },
+      isFocused: { type: Boolean }
     }
   }
   constructor() {
     super()
+    this.isFocused = true
     this.citiesResult = {}
     this.selectedCountries = {}
     this.existsCountry = false
@@ -38,18 +40,31 @@ export class SearchComponent extends LitElement {
         border-radius: 8px;
         overflow: hidden;
         background-color: rgb(6, 69, 156);
-        z-index: 20;
+        z-index: 100;
+      }
+      .hidden {
+        display: none;
+      }
+      .show {
+        display: initial;
+        z-index: 110;
+      }
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vh;
+        height: 100vh;
+        z-index: 100;
       }
     `
   ]
   addWeatherCard(e) {
     let citiesResult = e.detail.cities
-    if (citiesResult === undefined) {
-      this.citiesResult = {}
-    }
     if (!citiesResult) return
     this.citiesResult = citiesResult
     //console.log(this.citiesResult)
+    this.isFocused = true
   }
   countrySelected(latitude, longitude, city, country) {
     let selectedCountries = {}
@@ -59,7 +74,6 @@ export class SearchComponent extends LitElement {
     const getCountryArray = Object.values(getCountry)
     let existsCountry = getCountryArray.some((e) => e.id === id)
     if (existsCountry) {
-      this.citiesResult = {}
       this.existsCountry = true
     } else {
       selectedCountries.country = country
@@ -75,14 +89,28 @@ export class SearchComponent extends LitElement {
         composed: true
       }
       this.dispatchEvent(new CustomEvent('cities', options))
-      this.citiesResult = {}
     }
+    this.isFocused = true
+  }
+  onInput() {
+    this.isFocused = false
+  }
+  hiddenListCountries() {
+    this.isFocused = true
   }
   render() {
     return html`
       <div>
-        <search-input @search=${this.addWeatherCard}></search-input>
-        <ul>
+        <search-input
+          @search=${this.addWeatherCard}
+          @onInput=${this.onInput}
+          @onBlur=${this.onBlur}
+        ></search-input>
+        <div
+          @click=${this.hiddenListCountries}
+          class=${this.isFocused ? 'hidden' : 'overlay'}
+        ></div>
+        <ul class=${this.isFocused ? 'hidden' : 'show'}>
           ${Object.keys(this.citiesResult).length > 2
             ? this.citiesResult.map((city) => {
                 return html` <list-countries-search

@@ -1,4 +1,6 @@
 import { LitElement, html, css } from 'lit'
+import { classMap } from 'lit/directives/class-map.js'
+
 import { removeItemStorage } from '../utils/index'
 
 import './search-component'
@@ -16,9 +18,12 @@ import {
   isMobile
 } from '../utils/dragAndDrop'
 
+import './card-skeleton'
+
 export class WeatherApp extends LitElement {
   static get properties() {
     return {
+      isLoading: { type: Boolean },
       selectedCountries: { type: Array }
     }
   }
@@ -32,6 +37,7 @@ export class WeatherApp extends LitElement {
       :host {
         display: block;
         overflow: hidden;
+        min-height: 80vh;
       }
       .weather-cards-container {
         position: relative;
@@ -41,6 +47,7 @@ export class WeatherApp extends LitElement {
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 0.5rem;
         padding: 0.5rem;
+        justify-content: space-around;
       }
       .button-container {
         width: 100%;
@@ -63,7 +70,9 @@ export class WeatherApp extends LitElement {
         position: relative;
         z-index: 100;
       }
-
+      .hidden {
+        display: none;
+      }
       @media (min-width: 358px) {
         .weather-cards-container {
           gap: 1rem;
@@ -73,12 +82,14 @@ export class WeatherApp extends LitElement {
       @media (min-width: 1200px) {
         .weather-cards-container {
           max-width: 1200px;
+          justify-items: center;
         }
       }
     `
   ]
   constructor() {
     super()
+    this.isLoading = true
     this.selectedCountries = []
   }
   async firstUpdated() {
@@ -92,6 +103,7 @@ export class WeatherApp extends LitElement {
     let selectedCountries = await getWeather(selectedCountry)
 
     this.selectedCountries = [...this.selectedCountries, selectedCountries]
+
     ListOfSelectedCountriesSaveToStorage(selectedCountry)
   }
 
@@ -103,6 +115,7 @@ export class WeatherApp extends LitElement {
     })
     let results = await Promise.all(promises)
     this.selectedCountries = results
+    this.isLoading = false
   }
   get weatherCardsContainer() {
     return this.renderRoot?.querySelector('.weather-cards-container') ?? null
@@ -133,6 +146,7 @@ export class WeatherApp extends LitElement {
     touchStart(dragging, this.weatherCardsContainer)
   }
   refresh() {
+    this.isLoading = true
     this.firstUpdated()
   }
 
@@ -171,6 +185,12 @@ export class WeatherApp extends LitElement {
           ${isMobile()
             ? weatherCard.map((card) => html`<div class="drag-container">${card}</div>`)
             : weatherCard}
+          ${selectedCountriesList().map(
+            () =>
+              html` <card-skeleton
+                class=${classMap({ skeleton: this.isLoading, hidden: !this.isLoading })}
+              ></card-skeleton>`
+          )}
         </div>
       </main>
     `
