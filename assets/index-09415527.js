@@ -446,10 +446,9 @@ var gr=Object.defineProperty;var _r=(r,e,t)=>e in r?gr(r,e,{enumerable:!0,config
         </div>
         <div class="weather-cards-container">
           ${yt()?e.map(t=>S`<div class="drag-container">${t}</div>`):e}
-          ${I().map(()=>S` <card-skeleton
-                class=${ca({skeleton:this.isLoading,hidden:!this.isLoading})}
-              ></card-skeleton>`)}
-          ${console.log(I())}
+          ${I().length?I().map(()=>S` <card-skeleton
+                    class=${ca({skeleton:this.isLoading,hidden:!this.isLoading})}
+                  ></card-skeleton>`):""}
         </div>
       </main>
     `}countChildComponents(){const t=[...this.weatherCardsContainer.childNodes];console.log(t.filter(n=>n.nodeType===1))}}N(cr,"styles",[j`
