@@ -44,8 +44,9 @@ export class CardSkeleton extends LitElement {
       .humdwind,
       .description {
         border-radius: 5px;
-        background: rgba(255, 255, 255, 0.6);
+        background: #004c67;
       }
+
       .location,
       .date,
       .maxmin-temp,
@@ -65,7 +66,6 @@ export class CardSkeleton extends LitElement {
       .location {
         width: 15rem;
         border-radius: 5px;
-        background: rgba(255, 255, 255, 0.6);
         grid-column: span 2 / span 2;
         justify-self: start;
       }
@@ -97,9 +97,9 @@ export class CardSkeleton extends LitElement {
       .skeleton {
         background: linear-gradient(
           70deg,
-          rgba(255, 255, 255, 0.5) 15%,
-          rgba(255, 255, 255, 0.4) 60%,
-          rgba(255, 255, 255, 0.5) 90%
+          rgba(0, 140, 170, 0.9) 15%,
+          rgba(0, 140, 170, 0.6) 60%,
+          rgba(0, 140, 170, 0.9) 90%
         );
         background-size: 500%;
         animation: skeleton-fade 1s infinite;
@@ -111,6 +111,19 @@ export class CardSkeleton extends LitElement {
         }
         100% {
           background-position: 0 50%;
+        }
+      }
+      @media (max-width: 354px) {
+        .date {
+          height: 2rem;
+        }
+        .location,
+        .maxmin-temp,
+        .date,
+        .temp,
+        .humdwind,
+        .description {
+          margin-bottom: 1rem;
         }
       }
     `
