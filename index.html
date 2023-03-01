@@ -11,46 +11,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="This is a weather app" />
     <title>Vite App</title>
-    <script type="module" crossorigin src="/weather-app/assets/index-c83ee230.js"></script>
-    <link rel="stylesheet" href="/weather-app/assets/index-4de8b664.css">
+    <script type="module" crossorigin src="/weather-app/assets/index-fb12cc55.js"></script>
+    <link rel="stylesheet" href="/weather-app/assets/index-d811d219.css">
   </head>
   <body class="font-Nunito font-semibold">
     <img
-      class="w-full fixed top-0 object-cover h-full"
+      class="w-full fixed -z-10 top-0 object-cover h-full"
       src="/weather-app/blurry-gradient-haikei.png"
       alt="background gradient"
     />
-    <main class="w-full grid place-items-center relative h-auto top-0 mt-5">
+    <main class="">
       <h1 class="text-center mt-5 text-4xl text-white/60">Weather App</h1>
-      <section class="w-full">
-        <weather-app></weather-app>
-      </section>
-      <div
-        class="hidden card max-w-md w-11/12 rounded-lg mt-1 bg-gradient-to-tl to-[#00061f] via-[#001460] from-[#001b7a] text-white/60 p-4 grid grid-cols-weatherCard gap-0"
-      >
-        <h2 class="col-span-2 pb-2">Buenos Aires (Argentina)</h2>
-        <div class="grid place-content-center">
-          <img class="svgDay w-28" src="/weather-app/day.svg" alt="day" />
-        </div>
-
-        <div class="flex flex-col mb-2 text-center">
-          <div>
-            <span>Mon, Sept 6 </span>
-            <span> 20:43</span>
-          </div>
-          <span class="text-6xl mt-2">30°C</span>
-          <div>
-            <span>32°C</span>
-            <span>/</span>
-            <span>28°C</span>
-          </div>
-        </div>
-        <span class="w-full inline-block">Soleado</span>
-        <div class="grid justify-around">
-          <span class="text-center">28 km/h</span>
-          <span class="col-start-3">20%</span>
-        </div>
-      </div>
+      <weather-app></weather-app>
     </main>
 
     
